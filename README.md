@@ -7,15 +7,19 @@ This project was bootstrapped with [Express Generator](https://expressjs.com/en/
 ## Endpoints List
 
 ``` bash
-GET '/' = Check if API is live
-GET '/get-all-products' = Get all submitted Fabelio products
-GET '/get-product-by-id/:id' = Get submitted Fabelio product by id
-POST '/create-submission' = Create new product submission (A valid Fabelio product link is needed)
+[GET] '/' = Check if API is live
+[GET] '/get-all-products' = Get all submitted Fabelio products
+[GET] '/get-product-by-id/:id' = Get submitted Fabelio product by id
+[POST] '/create-submission' = Create new product submission (A valid Fabelio product link is needed)
 ```
 
 ## Available Scripts
 
 In the project directory, you can run:
+
+### `npm install`
+
+Install required dependencies. (Only for first time).
 
 ### `npm start`
 
