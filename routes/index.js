@@ -18,7 +18,7 @@ var crawlProduct = require('./crawl_product')
 router.get('/get-all-products', async (req, res) => {
   try {
     const client = await pool.connect()
-    const result = await client.query('SELECT * FROM Product')
+    const result = await client.query('SELECT * FROM Product;')
     const results = { results: (result) ? result.rows : null }
     res.send(results)
     client.release()
@@ -86,13 +86,14 @@ router.post('/create-submission', async (req, res) => {
 router.get('/update-per-hour', async (req, res) => {
   try {
     const client = await pool.connect()
-    const product = await client.query('SELECT * FROM Product')
+    const product = await client.query('SELECT * FROM Product;')
     const products = (product) ? product.rows : null
     products.map(async product => {
       const crawlResult = await crawlProduct(product.link)
-      if (crawlResult.status === 500) {
+      /*if (crawlResult.status === 500) {
         throw new Error(crawlResult.message)
-      }
+        break
+      }*/
       const updatedProduct = await client.query('UPDATE Product SET name = \'' + crawlResult.name + '\', description = \'' + crawlResult.description + '\', latest_price = \'' + crawlResult.latest_price + '\', image1 = \'' + crawlResult.image1 + '\', image2 = \'' + crawlResult.image2 + '\', image3 = \'' + crawlResult.image3 + '\') RETURNING *;')
       await client.query('INSERT INTO Price (product_id, price, time) VALUES (' + updatedProduct.rows[0].id + ', \'' + crawlResult.latest_price + '\', NOW());')
     })
