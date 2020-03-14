@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var pool = require('../db_config')
-var crawlProduct = require('./crawl_product')
+var crawlProduct = require('../crawl_product')
 
 router.get('/', async (req, res) => {
   try {

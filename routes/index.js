@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var pool = require('../db_config')
-var crawlProduct = require('./crawl_product')
+var crawlProduct = require('../crawl_product')
 
 /*
  * LIST API
@@ -75,32 +75,6 @@ router.post('/create-submission', async (req, res) => {
     results.prices = (prices) ? prices.rows : null
     console.log('3 ', results)
     res.send(results)
-    client.release()
-  } catch (err) {
-    console.error(err)
-    res.send('Error: ' + err)
-  }
-})
-
-/* GET update all products per hour. */
-router.get('/update-per-hour', async (req, res) => {
-  try {
-    const client = await pool.connect()
-    const product = await client.query('SELECT * FROM Product;')
-    const products = (product) ? product.rows : null
-    products.map(async product => {
-      const crawlResult = await crawlProduct(product.link)
-      /* if (crawlResult.status === 500) {
-        throw new Error(crawlResult.message)
-        break
-      } */
-      console.log('asdasdasd')
-      await client.query('UPDATE Product SET name = \'' + crawlResult.name + '\', description = \'' + crawlResult.description + '\', latest_price = \'' + crawlResult.latest_price + '\', image1 = \'' + crawlResult.image1 + '\', image2 = \'' + crawlResult.image2 + '\', image3 = \'' + crawlResult.image3 + '\' WHERE Product.id = ' + product.id + ';')
-      console.log('eqeqeqeqe')
-      await client.query('INSERT INTO Price (product_id, price, time) VALUES (' + product.id + ', \'' + crawlResult.latest_price + '\', NOW());')
-      console.log('huhuhuhuh')
-    })
-    res.send('All products updated')
     client.release()
   } catch (err) {
     console.error(err)
