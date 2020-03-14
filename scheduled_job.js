@@ -1,8 +1,8 @@
 var pool = require('./db_config')
 var crawlProduct = require('./crawl_product')
 
-function sayHello () {
-  console.log('Hello || ' + new Date().toLocaleString)
+const sayHello = () => {
+  console.log('Hello || ' + new Date(Date.now()).toLocaleString)
 }
 sayHello()
 
