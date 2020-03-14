@@ -38,7 +38,9 @@ router.get('/get-product-by-id/:id', async (req, res) => {
     const client = await pool.connect()
     const results = { product: null, prices: null }
     const product = await client.query('SELECT * FROM Product WHERE id = ' + id + ';')
+    console.log('prod = ', product)
     results.product = (product) ? product.rows[0] : null
+    console.log('res.prod = ', results.product)
     if (!results.product.length) {
       throw new Error('Product not found')
     }

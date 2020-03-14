@@ -6,7 +6,8 @@ var crawlProduct = require('./crawl_product')
 router.get('/', async (req, res) => {
   try {
     const client = await pool.connect()
-    const result = await client.query('SELECT * FROM product')
+    const id = 1
+    const result = await client.query(`SELECT * FROM product WHERE id = ${id};`)
     const results = { results: (result) ? result.rows : null }
     res.send(results)
     client.release()
