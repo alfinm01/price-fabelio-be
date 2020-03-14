@@ -94,8 +94,11 @@ router.get('/update-per-hour', async (req, res) => {
         throw new Error(crawlResult.message)
         break
       } */
-      await client.query('UPDATE Product SET name = \'' + crawlResult.name + '\', description = \'' + crawlResult.description + '\', latest_price = \'' + crawlResult.latest_price + '\', image1 = \'' + crawlResult.image1 + '\', image2 = \'' + crawlResult.image2 + '\', image3 = \'' + crawlResult.image3 + '\') WHERE Product.id = ' + product.id + ';')
+      console.log('asdasdasd')
+      await client.query('UPDATE Product SET name = \'' + crawlResult.name + '\', description = \'' + crawlResult.description + '\', latest_price = \'' + crawlResult.latest_price + '\', image1 = \'' + crawlResult.image1 + '\', image2 = \'' + crawlResult.image2 + '\', image3 = \'' + crawlResult.image3 + '\' WHERE Product.id = ' + product.id + ';')
+      console.log('eqeqeqeqe')
       await client.query('INSERT INTO Price (product_id, price, time) VALUES (' + product.id + ', \'' + crawlResult.latest_price + '\', NOW());')
+      console.log('huhuhuhuh')
     })
     res.send('All products updated')
     client.release()
