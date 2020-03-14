@@ -71,7 +71,7 @@ router.post('/create-submission', async (req, res) => {
     const product = await client.query('INSERT INTO Product (name, description, latest_price, image1, image2, image3, link, submitted_on) VALUES (' + crawlResult.name + ', ' + crawlResult.description + ', ' + crawlResult.latest_price + ', ' + crawlResult.image1 + ', ' + crawlResult.image2 + ', ' + crawlResult.image3 + ', ' + link + ', NOW()) RETURNING *;')
     results.product = (product) ? product.rows[0] : null
     console.log('2 ', results)
-    const prices = await client.query('INSERT INTO Price (product_id, price, time) VALUES (\' + results.product.id + \', \' + crawlResult.latest_price + \', NOW()) RETURNING *;')
+    const prices = await client.query('INSERT INTO Price (product_id, price, time) VALUES (' + results.product.id + ', ' + crawlResult.latest_price + ', NOW()) RETURNING *;')
     results.prices = (prices) ? prices.rows : null
     console.log('3 ', results)
     res.send(results)
