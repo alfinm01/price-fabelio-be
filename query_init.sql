@@ -1,6 +1,6 @@
 CREATE TABLE product (
 	id serial PRIMARY KEY,
-	name VARCHAR (255) NOT NULL,
+	name VARCHAR NOT NULL,
 	description text,
 	latest_price VARCHAR NOT NULL,
 	image1 VARCHAR,

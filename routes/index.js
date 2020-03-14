@@ -37,12 +37,12 @@ router.get('/get-product-by-id/:id', async (req, res) => {
     }
     const client = await pool.connect()
     const results = { product: null, prices: null }
-    const product = await client.query(`SELECT * FROM Product WHERE id = ${id};`)
+    const product = await client.query('SELECT * FROM Product WHERE id = ' + id + ';')
     results.product = (product) ? product.rows[0] : null
     if (!results.product.length) {
       throw new Error('Product not found')
     }
-    const prices = await client.query(`SELECT * FROM Price WHERE product_id = ${id};`)
+    const prices = await client.query('SELECT * FROM Price WHERE product_id = ' + id + ';')
     results.prices = (prices) ? prices.rows : null
     res.send(results)
     client.release()
@@ -66,8 +66,7 @@ router.post('/create-submission', async (req, res) => {
     console.log('1 ', crawlResult)
     const client = await pool.connect()
     const results = { product: null, prices: null }
-    const product = await client.query(`INSERT INTO Product (name, description, latest_price, image1, image2, image3, link, submitted_on)
-VALUES (${crawlResult.name}, ${crawlResult.description}, ${crawlResult.latest_price}, ${crawlResult.image1}, ${crawlResult.image2}, ${crawlResult.image3}, ${link}, NOW()) RETURNING *;`)
+    const product = await client.query(`INSERT INTO Product (name, description, latest_price, image1, image2, image3, link, submitted_on) VALUES (${crawlResult.name}, ${crawlResult.description}, ${crawlResult.latest_price}, ${crawlResult.image1}, ${crawlResult.image2}, ${crawlResult.image3}, ${link}, NOW()) RETURNING *;`)
     results.product = (product) ? product.rows[0] : null
     console.log('2 ', results)
     const prices = await client.query(`INSERT INTO Price (product_id, price, time) VALUES (${results.product.id}, ${crawlResult.latest_price}, NOW()) RETURNING *;`)
