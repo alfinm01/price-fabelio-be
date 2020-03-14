@@ -90,12 +90,12 @@ router.get('/update-per-hour', async (req, res) => {
     const products = (product) ? product.rows : null
     products.map(async product => {
       const crawlResult = await crawlProduct(product.link)
-      /*if (crawlResult.status === 500) {
+      /* if (crawlResult.status === 500) {
         throw new Error(crawlResult.message)
         break
-      }*/
-      const updatedProduct = await client.query('UPDATE Product SET name = \'' + crawlResult.name + '\', description = \'' + crawlResult.description + '\', latest_price = \'' + crawlResult.latest_price + '\', image1 = \'' + crawlResult.image1 + '\', image2 = \'' + crawlResult.image2 + '\', image3 = \'' + crawlResult.image3 + '\') RETURNING *;')
-      await client.query('INSERT INTO Price (product_id, price, time) VALUES (' + updatedProduct.rows[0].id + ', \'' + crawlResult.latest_price + '\', NOW());')
+      } */
+      await client.query('UPDATE Product SET name = \'' + crawlResult.name + '\', description = \'' + crawlResult.description + '\', latest_price = \'' + crawlResult.latest_price + '\', image1 = \'' + crawlResult.image1 + '\', image2 = \'' + crawlResult.image2 + '\', image3 = \'' + crawlResult.image3 + '\') WHERE Product.id = ' + product.id + ';')
+      await client.query('INSERT INTO Price (product_id, price, time) VALUES (' + product.id + ', \'' + crawlResult.latest_price + '\', NOW());')
     })
     res.send('All products updated')
     client.release()
