@@ -11,18 +11,21 @@ const crawlProduct = async (link) => {
     const result = await axios.get(link)
     const $ = cheerio.load(result.data)
 
-    const name = ''
-    const description = ''
-    const latestPrice = ''
-    const images = new Set()
+    const name = $('li.item.product').find('strong').text()
+    const description = $('div#description').text()
+    const latestPrice = $('span.price').first().text()
+    const images = []
+    $('div.product').find('img').each((index, element) => {
+      images.push($(element).attr('src'))
+    })
 
     return {
       name: name,
       description: description,
       latest_price: latestPrice,
-      image1: images[0] ? images[0] : null,
-      image2: images[1] ? images[1] : null,
-      image3: images[2] ? images[2] : null
+      image1: images[1] ? images[1] : null,
+      image2: images[2] ? images[2] : null,
+      image3: images[3] ? images[3] : null
     }
   } catch (err) {
     console.error(err)
@@ -30,4 +33,4 @@ const crawlProduct = async (link) => {
   }
 }
 
-export default crawlProduct
+module.exports = crawlProduct

@@ -1,6 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var pool = require('../db_config')
+var crawlProduct = require('./crawl_product')
 
 router.get('/', async (req, res) => {
   try {
@@ -37,6 +38,15 @@ router.get('/insert-price', async (req, res) => {
     const results = { results: (result) ? result.rows : null }
     res.send(results)
     client.release()
+  } catch (err) {
+    console.error(err)
+    res.send('Error ' + err)
+  }
+})
+
+router.get('/crawl', (req, res) => {
+  try {
+    return crawlProduct('https://fabelio.com/ip/kubos-2020-frame.html')
   } catch (err) {
     console.error(err)
     res.send('Error ' + err)
