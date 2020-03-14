@@ -5,7 +5,7 @@ var axios = require('axios')
 const crawlProduct = async (link) => {
   try {
     if (!link) {
-      throw new Error('No Link supplied')
+      throw new Error('No link supplied')
     }
 
     const result = await axios.get(link)
