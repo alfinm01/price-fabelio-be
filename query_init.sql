@@ -11,10 +11,10 @@ CREATE TABLE product (
 );
 
 CREATE TABLE price (
+	id serial PRIMARY KEY,
 	product_id integer NOT NULL,
 	price VARCHAR NOT NULL,
 	time TIMESTAMP NOT NULL,
-	PRIMARY KEY (product_id),
 	CONSTRAINT product_price_product_id_fkey FOREIGN KEY (product_id)
       REFERENCES product (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
