@@ -6,6 +6,7 @@ CREATE TABLE product (
 	image1 VARCHAR,
 	image2 VARCHAR,
 	image3 VARCHAR,
+	LINK VARCHAR NOT NULL,
 	submitted_on TIMESTAMP NOT NULL
 );
 

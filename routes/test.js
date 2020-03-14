@@ -18,8 +18,8 @@ router.get('/', async (req, res) => {
 router.get('/insert-product', async (req, res) => {
   try {
     const client = await pool.connect()
-    const result = await client.query(`INSERT INTO Product (name, description, latest_price, image1, image2, image3, submitted_on)
-VALUES ('Meja makan', 'Lorem ipsum dolor sit amet', 'https://m2fabelio.imgix.net/catalog/product/cache/thumbnail/88x110/beff4985b56e3afdbeabfc89641a4582/c/e/cessi_dining_table_-_kit_0_3.jpg', NULL, NULL, NOW()) RETURNING *;`)
+    const result = await client.query(`INSERT INTO Product (name, description, latest_price, image1, image2, image3, link, submitted_on)
+VALUES ('Meja makan', 'Lorem ipsum dolor sit amet', '999.000', 'https://m2fabelio.imgix.net/catalog/product/cache/thumbnail/88x110/beff4985b56e3afdbeabfc89641a4582/c/e/cessi_dining_table_-_kit_0_3.jpg', NULL, NULL, 'https://fabelio.com/ip/meja-makan-cessi-new.html', NOW()) RETURNING *;`)
     const results = { results: (result) ? result.rows : null }
     res.send(results)
     client.release()
@@ -32,8 +32,8 @@ VALUES ('Meja makan', 'Lorem ipsum dolor sit amet', 'https://m2fabelio.imgix.net
 router.get('/insert-price', async (req, res) => {
   try {
     const client = await pool.connect()
-    await client.query('UPDATE Product SET latest_price = \'100004324\' WHERE Product.id = 1;')
-    const result = await client.query('INSERT INTO Price (product_id, price, time) VALUES (1, \'100004324\', NOW()) RETURNING *;')
+    await client.query('UPDATE Product SET latest_price = \'799.200\' WHERE Product.id = 1;')
+    const result = await client.query('INSERT INTO Price (product_id, price, time) VALUES (1, \'799.200\', NOW()) RETURNING *;')
     const results = { results: (result) ? result.rows : null }
     res.send(results)
     client.release()
@@ -43,7 +43,7 @@ router.get('/insert-price', async (req, res) => {
   }
 })
 
-// LATER ADD ROUTE TO DELETE ALL ROWS IN BOTH TABLES (WHEN PRODUCTION READY)
+// ROUTE TO DELETE ALL ROWS IN BOTH TABLES (WHEN PRODUCTION READY)
 // -> DROP TABLE Product, Price;
 
 module.exports = router
