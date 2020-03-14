@@ -2,7 +2,7 @@ var pool = require('./db_config')
 var crawlProduct = require('./crawl_product')
 
 function sayHello () {
-  console.log('Hello')
+  console.log('Hello || ' + new Date().toLocaleString)
 }
 sayHello()
 
