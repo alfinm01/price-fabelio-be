@@ -1,4 +1,4 @@
-var pool = require('../db_config')
+var pool = require('./db_config')
 var crawlProduct = require('./crawl_product')
 
 function sayHello () {
@@ -18,11 +18,8 @@ const updatePerHour = async () => {
         throw new Error(crawlResult.message)
         break
       } */
-      console.log('asdasdasd')
       await client.query('UPDATE Product SET name = \'' + crawlResult.name + '\', description = \'' + crawlResult.description + '\', latest_price = \'' + crawlResult.latest_price + '\', image1 = \'' + crawlResult.image1 + '\', image2 = \'' + crawlResult.image2 + '\', image3 = \'' + crawlResult.image3 + '\' WHERE Product.id = ' + product.id + ';')
-      console.log('eqeqeqeqe')
       await client.query('INSERT INTO Price (product_id, price, time) VALUES (' + product.id + ', \'' + crawlResult.latest_price + '\', NOW());')
-      console.log('huhuhuhuh')
     })
     console.log('All products updated')
     client.release()

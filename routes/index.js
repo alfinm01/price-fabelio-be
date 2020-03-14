@@ -8,7 +8,9 @@ var crawlProduct = require('../crawl_product')
  * POST create-submission -> use crawlProduct
  * GET get-all-products
  * GET get-product-by-id
- * GET update-per-hour || batch-job || schedule -> use crawlProduct with iteration for every product
+ *
+ * SCHEDULED JOB
+ * updatePerHour -> use crawlProduct with iteration for every product
  *
  * REUSABLE FUNCTION
  * crawlProduct
@@ -38,9 +40,7 @@ router.get('/get-product-by-id/:id', async (req, res) => {
     const client = await pool.connect()
     const results = { product: null, prices: null }
     const product = await client.query('SELECT * FROM Product WHERE id = ' + id + ';')
-    console.log('prod = ', product)
     results.product = (product) ? product.rows[0] : null
-    console.log('res.prod = ', results.product)
     if (!results.product) {
       throw new Error('Product not found')
     }
@@ -65,15 +65,12 @@ router.post('/create-submission', async (req, res) => {
     if (crawlResult.status === 500) {
       throw new Error(crawlResult.message)
     }
-    console.log('1 ', crawlResult)
     const client = await pool.connect()
     const results = { product: null, prices: null }
     const product = await client.query('INSERT INTO Product (name, description, latest_price, image1, image2, image3, link, submitted_on) VALUES (\'' + crawlResult.name + '\', \'' + crawlResult.description + '\', \'' + crawlResult.latest_price + '\', \'' + crawlResult.image1 + '\', \'' + crawlResult.image2 + '\', \'' + crawlResult.image3 + '\', \'' + link + '\', NOW()) RETURNING *;')
     results.product = (product) ? product.rows[0] : null
-    console.log('2 ', results)
     const prices = await client.query('INSERT INTO Price (product_id, price, time) VALUES (' + results.product.id + ', \'' + crawlResult.latest_price + '\', NOW()) RETURNING *;')
     results.prices = (prices) ? prices.rows : null
-    console.log('3 ', results)
     res.send(results)
     client.release()
   } catch (err) {
