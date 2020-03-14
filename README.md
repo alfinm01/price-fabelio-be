@@ -1,5 +1,7 @@
 # Fabelio Price Monitoring Back-end
 
+API is accessible on [api-price-fabelio.herokuapp.com](http://api-price-fabelio.herokuapp.com).<br />
+
 This project was bootstrapped with [Express Generator](https://expressjs.com/en/starter/generator.html).
 
 ## Available Scripts

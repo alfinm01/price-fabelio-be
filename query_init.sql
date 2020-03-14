@@ -2,6 +2,7 @@ CREATE TABLE product (
 	id serial PRIMARY KEY,
 	name VARCHAR (255) NOT NULL,
 	description text,
+	latest_price VARCHAR NOT NULL,
 	image1 VARCHAR,
 	image2 VARCHAR,
 	image3 VARCHAR,
