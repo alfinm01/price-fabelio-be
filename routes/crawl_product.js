@@ -20,9 +20,9 @@ const crawlProduct = async (link) => {
     })
 
     return {
-      name: name ? name : null,
-      description: description ? description : null,
-      latest_price: latestPrice ? latestPrice: null,
+      name: name || null,
+      description: description || null,
+      latest_price: latestPrice || null,
       image1: images[1] ? images[1] : null,
       image2: images[2] ? images[2] : null,
       image3: images[3] ? images[3] : null
