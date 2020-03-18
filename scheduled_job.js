@@ -1,5 +1,5 @@
-var pool = require('./db_config')
-var crawlProduct = require('./crawl_product')
+var pool = require('./db/db_config')
+var crawlProduct = require('./functions/crawl_product')
 
 const sayHello = () => {
   console.log('Hello || ' + new Date(Date.now()).toLocaleString)
